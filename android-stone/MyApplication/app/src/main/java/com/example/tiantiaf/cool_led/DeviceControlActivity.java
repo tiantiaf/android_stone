@@ -36,21 +36,30 @@ public class DeviceControlActivity extends FragmentActivity {
     private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
     private boolean mConnected = false;
-    private Button Stone_Motor_btn;
-    private Button PauseButton;
-    private Button SaveButton;
-    private Button PriorityButton;
+    private Button Stone_Motor_Mode1_btn;
+    private Button Stone_Motor_Mode2_btn;
+    private Button Stone_Motor_Mode3_btn;
+    private Button Stone_Motor_Mode4_btn;
+    private Button Stone_Motor_Off_btn;
+
     private long initDate = 0;
 
     private boolean    Stone_Motor_Status;
-    private String      LED_Status_Txt;
     private String      Stone_Motor_Btn_Txt;
 
     private boolean Stone_Motor_On      = true;
     private boolean Stone_Motor_Off     = false;
 
-    private String Stone_Motor_On_Txt    = "Stone Motor ON";
-    private String Stone_Motor_Off_Txt   = "Stone Motor OFF";
+    private String Stone_Motor_Mode1_On_Txt    = "Mode1 ON";
+    private String Stone_Motor_Mode1_Off_Txt   = "Mode1 OFF";
+    private String Stone_Motor_Mode2_On_Txt    = "Mode2 ON";
+    private String Stone_Motor_Mode2_Off_Txt   = "Mode2 OFF";
+    private String Stone_Motor_Mode3_On_Txt    = "Mode3 ON";
+    private String Stone_Motor_Mode3_Off_Txt   = "Mode3 OFF";
+    private String Stone_Motor_Mode4_On_Txt    = "Mode4 ON";
+    private String Stone_Motor_Mode4_Off_Txt   = "Mode4 OFF";
+    private String Stone_Motor_On_Txt    = "Motor ON";
+    private String Stone_Motor_Off_Txt   = "Motor OFF";
 
     private int sampleCounter = 0;
     private List<String[]> dataArray = new ArrayList<String[]>();
@@ -145,57 +154,108 @@ public class DeviceControlActivity extends FragmentActivity {
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
         initDate = 0;
+
         //Reg the button in UI
-        Stone_Motor_btn = (Button) findViewById(R.id.Led_Btn);
+        Stone_Motor_Mode1_btn = (Button) findViewById(R.id.Motor_Mode1_Btn);
+        Stone_Motor_Mode2_btn = (Button) findViewById(R.id.Motor_Mode2_Btn);
+        Stone_Motor_Mode3_btn = (Button) findViewById(R.id.Motor_Mode3_Btn);
+        Stone_Motor_Mode4_btn = (Button) findViewById(R.id.Motor_Mode4_Btn);
 
-        /* Unused Mode */
-        PauseButton = (Button) findViewById(R.id.pauseutton);
-        SaveButton = (Button) findViewById(R.id.saveButton);
-        PriorityButton = (Button) findViewById(R.id.priority);
-
+        Stone_Motor_Off_btn = (Button) findViewById(R.id.Motor_Off_Btn);
 
         if (android.os.Build.VERSION.SDK_INT < 21) {
-            PriorityButton.setVisibility(View.INVISIBLE);
+            //Stone_Motor_Off_btn.setVisibility(View.INVISIBLE);
         }
 
-        Stone_Motor_btn.setOnClickListener(new Button.OnClickListener() {
+        Stone_Motor_Mode1_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* Change the Motor status fisrt */
-                Stone_Motor_Status = (Stone_Motor_Status == Stone_Motor_On) ? Stone_Motor_Off : Stone_Motor_On;
-                Stone_Motor_Btn_Txt = (Stone_Motor_Status == Stone_Motor_Off) ? Stone_Motor_On_Txt : Stone_Motor_Off_Txt;
-                dataTrans[0]    =  (Stone_Motor_Status == Stone_Motor_Off) ? 0 : 1;
-                Stone_Motor_btn.setText("SET " + Stone_Motor_Btn_Txt);
+                dataTrans[0] =  1;
+                dataTrans[1] =  1;
+
+                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_On_Txt);
+                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
+                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
+                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
+                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
 
                 WriteChar(dataTrans);
 
             }
         });
 
-        PauseButton.setOnClickListener(new Button.OnClickListener() {
+        Stone_Motor_Mode2_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* Change the Motor status fisrt */
+                dataTrans[0] =  1;
+                dataTrans[1] =  2;
 
-                dataTrans[1]    =  (Stone_Motor_Status == Stone_Motor_Off) ? 0 : 2;
+                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
+                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_On_Txt);
+                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
+                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
+                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
+
                 WriteChar(dataTrans);
 
             }
         });
 
-        SaveButton.setOnClickListener(new Button.OnClickListener() {
+        Stone_Motor_Mode3_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* Change the Motor status fisrt */
+                dataTrans[0] =  1;
+                dataTrans[1] =  3;
 
-                dataTrans[0] =  0x01;
+                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
+                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
+                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_On_Txt);
+                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
+                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
 
                 WriteChar(dataTrans);
+
             }
         });
 
-        mConnectionState = (TextView) findViewById(R.id.connection_state);
-        mDataField = (TextView) findViewById(R.id.data_value);
-        mUpdateTime = (TextView) findViewById(R.id.timeUpdate);
-        mDataOutput = (TextView) findViewById(R.id.data_output);
+        Stone_Motor_Mode4_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* Change the Motor status fisrt */
+                dataTrans[0] =  1;
+                dataTrans[1] =  4;
+
+                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
+                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
+                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
+                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_On_Txt);
+                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
+
+                WriteChar(dataTrans);
+
+            }
+        });
+
+        Stone_Motor_Off_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* Change the Motor status fisrt */
+                dataTrans[0] = 0;
+                dataTrans[1] = 0;
+
+                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
+                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
+                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
+                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
+                Stone_Motor_Off_btn.setText(Stone_Motor_Off_Txt);
+
+                WriteChar(dataTrans);
+
+            }
+        });
 
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);

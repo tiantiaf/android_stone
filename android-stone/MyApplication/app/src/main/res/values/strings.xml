@@ -23,7 +23,11 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="LED_SET">LED SET ON</string>
+    <string name="MOTOR_SET_Mode1">Motor SET ON Mode1</string>
+    <string name="MOTOR_SET_Mode2">Motor SET ON Mode2</string>
+    <string name="MOTOR_SET_Mode3">Motor SET ON Mode3</string>
+    <string name="MOTOR_SET_Mode4">Motor SET ON Mode4</string>
+    <string name="MOTOR_SET_OFF">Motor SET Off</string>
 
     <!-- Menu items -->
     <string name="menu_connect">Connect</string>

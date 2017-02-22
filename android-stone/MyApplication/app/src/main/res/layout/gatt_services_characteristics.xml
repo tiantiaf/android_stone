@@ -10,17 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_content_small">
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_state"
-            android:textSize="@dimen/text_size"/>
+
         <Space android:layout_width="@dimen/margin_empty"
             android:layout_height="wrap_content"/>
-        <TextView android:id="@+id/connection_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/disconnected"
-            android:textSize="@dimen/text_size"/>
     </LinearLayout>
 
 
@@ -29,17 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_content_small">
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_data"
-            android:textSize="@dimen/text_size"/>
+
         <Space android:layout_width="@dimen/margin_empty"
             android:layout_height="wrap_content"/>
-        <TextView android:id="@+id/data_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:textSize="@dimen/text_size"/>
     </LinearLayout>
 
 
@@ -47,17 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_content_small">
-        <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Output Data:"
-            android:textSize="@dimen/text_size"/>
+
         <Space android:layout_width="@dimen/margin_empty"
             android:layout_height="wrap_content"/>
-        <TextView android:id="@+id/data_output"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/no_data"
-            android:textSize="@dimen/text_size"/>
     </LinearLayout>
 
 
@@ -65,19 +41,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_content_small">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time:"
-            android:textSize="@dimen/text_size" />
+
         <Space android:layout_width="@dimen/margin_empty"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/timeUpdate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Not Updated"
-            android:textSize="@dimen/text_size" />
     </LinearLayout>
 
     <LinearLayout android:orientation="horizontal"
@@ -90,13 +56,13 @@
             android:layout_weight="1"
             android:layout_height="@dimen/button_size"
             android:textSize="@dimen/button_text_size"
-            android:text="@string/LED_SET"
+            android:text="@string/MOTOR_SET_Mode1"
             android:textColor="@android:color/white"
-            android:id="@+id/Led_Btn"
+            android:id="@+id/Motor_Mode1_Btn"
             android:background="@color/colorPrimary"/>
 
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,23 +71,30 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="@dimen/button_size"
-            android:text="Save"
+            android:text="@string/MOTOR_SET_Mode2"
             android:textColor="@android:color/white"
             android:textSize="@dimen/button_text_size"
-            android:id="@+id/saveButton"
+            android:id="@+id/Motor_Mode2_Btn"
             android:background="@color/colorPrimary"/>
-        <Space android:layout_width="@dimen/margin_empty"
-            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_content_small">
         <Button
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="@dimen/button_size"
-            android:textSize="@dimen/button_text_size"
-            android:text="Start"
+            android:text="@string/MOTOR_SET_Mode3"
             android:textColor="@android:color/white"
-            android:id="@+id/pauseutton"
+            android:textSize="@dimen/button_text_size"
+            android:id="@+id/Motor_Mode3_Btn"
             android:background="@color/colorPrimary"/>
+
     </LinearLayout>
+
     <LinearLayout android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -132,13 +105,33 @@
             android:layout_weight="1"
             android:layout_height="@dimen/button_size"
             android:textSize="@dimen/button_text_size"
-            android:text="To High Speed"
+            android:text="@string/MOTOR_SET_Mode4"
             android:textColor="@android:color/white"
-            android:id="@+id/priority"
+            android:id="@+id/Motor_Mode4_Btn"
             android:background="@color/colorPrimary"/>
 
 
     </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_content_small">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_size"
+            android:textSize="@dimen/button_text_size"
+            android:text="@string/MOTOR_SET_OFF"
+            android:textColor="@android:color/white"
+            android:id="@+id/Motor_Off_Btn"
+            android:background="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
+
     <LinearLayout
         android:id="@+id/chart"
         android:layout_width="wrap_content"
