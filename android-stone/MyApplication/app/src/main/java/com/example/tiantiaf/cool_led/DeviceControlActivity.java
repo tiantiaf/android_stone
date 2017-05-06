@@ -14,8 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +41,6 @@ public class DeviceControlActivity extends FragmentActivity {
             new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
     private boolean mConnected = false;
     private Button Stone_Motor_Mode1_btn;
-    private Button Stone_Motor_Mode2_btn;
-    private Button Stone_Motor_Mode3_btn;
-    private Button Stone_Motor_Mode4_btn;
     private Button Stone_Motor_Off_btn;
 
     private long initDate = 0;
@@ -50,14 +51,9 @@ public class DeviceControlActivity extends FragmentActivity {
     private boolean Stone_Motor_On      = true;
     private boolean Stone_Motor_Off     = false;
 
-    private String Stone_Motor_Mode1_On_Txt    = "Mode1 ON";
-    private String Stone_Motor_Mode1_Off_Txt   = "Mode1 OFF";
-    private String Stone_Motor_Mode2_On_Txt    = "Mode2 ON";
-    private String Stone_Motor_Mode2_Off_Txt   = "Mode2 OFF";
-    private String Stone_Motor_Mode3_On_Txt    = "Mode3 ON";
-    private String Stone_Motor_Mode3_Off_Txt   = "Mode3 OFF";
-    private String Stone_Motor_Mode4_On_Txt    = "Mode4 ON";
-    private String Stone_Motor_Mode4_Off_Txt   = "Mode4 OFF";
+    private String Stone_Motor_Mode1_On_Txt    = "Sequence ON";
+    private String Stone_Motor_Mode1_Off_Txt   = "Sequence OFF";
+
     private String Stone_Motor_On_Txt    = "Motor ON";
     private String Stone_Motor_Off_Txt   = "Motor OFF";
 
@@ -65,6 +61,12 @@ public class DeviceControlActivity extends FragmentActivity {
     private List<String[]> dataArray = new ArrayList<String[]>();
 
     private int[] dataTrans = {0x00, 0x01, 0x00, 0x00};
+
+    private Spinner time_spinner;
+    private Spinner pwm_spinner;
+
+    private int time_value;
+    private int pwm_value;
 
     /*This function is used to received the broadcast data from BluetoothLeService*/
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
@@ -157,11 +159,26 @@ public class DeviceControlActivity extends FragmentActivity {
 
         //Reg the button in UI
         Stone_Motor_Mode1_btn = (Button) findViewById(R.id.Motor_Mode1_Btn);
-        Stone_Motor_Mode2_btn = (Button) findViewById(R.id.Motor_Mode2_Btn);
-        Stone_Motor_Mode3_btn = (Button) findViewById(R.id.Motor_Mode3_Btn);
-        Stone_Motor_Mode4_btn = (Button) findViewById(R.id.Motor_Mode4_Btn);
+
+        time_spinner = (Spinner) findViewById(R.id.time_spinner);
+        pwm_spinner  = (Spinner) findViewById(R.id.pwm_spinner);
+
+        String[] timeItems = getResources().getStringArray(R.array.time_select);
+        String[] pwmItems = getResources().getStringArray(R.array.pwm_select);
+
+        ArrayAdapter<String> timeAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, timeItems);
+        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> pwmAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, pwmItems);
+        pwmAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        time_spinner.setAdapter(timeAdapter);
+        pwm_spinner.setAdapter(pwmAdapter);
 
         Stone_Motor_Off_btn = (Button) findViewById(R.id.Motor_Off_Btn);
+
+        Stone_Motor_Status = false;
+        Stone_Motor_Off_btn.setText(Stone_Motor_Off_Txt);
 
         if (android.os.Build.VERSION.SDK_INT < 21) {
             //Stone_Motor_Off_btn.setVisibility(View.INVISIBLE);
@@ -171,68 +188,11 @@ public class DeviceControlActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 /* Change the Motor status fisrt */
-                dataTrans[0] =  1;
                 dataTrans[1] =  1;
+                dataTrans[2] = time_value;
+                dataTrans[3] = pwm_value;
 
                 Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_On_Txt);
-                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
-                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
-                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
-                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
-
-                WriteChar(dataTrans);
-
-            }
-        });
-
-        Stone_Motor_Mode2_btn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* Change the Motor status fisrt */
-                dataTrans[0] =  1;
-                dataTrans[1] =  2;
-
-                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
-                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_On_Txt);
-                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
-                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
-                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
-
-                WriteChar(dataTrans);
-
-            }
-        });
-
-        Stone_Motor_Mode3_btn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* Change the Motor status fisrt */
-                dataTrans[0] =  1;
-                dataTrans[1] =  3;
-
-                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
-                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
-                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_On_Txt);
-                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
-                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
-
-                WriteChar(dataTrans);
-
-            }
-        });
-
-        Stone_Motor_Mode4_btn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /* Change the Motor status fisrt */
-                dataTrans[0] =  1;
-                dataTrans[1] =  4;
-
-                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
-                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
-                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
-                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_On_Txt);
-                Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
 
                 WriteChar(dataTrans);
 
@@ -242,17 +202,57 @@ public class DeviceControlActivity extends FragmentActivity {
         Stone_Motor_Off_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* Change the Motor status fisrt */
-                dataTrans[0] = 0;
-                dataTrans[1] = 0;
 
-                Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
-                Stone_Motor_Mode2_btn.setText(Stone_Motor_Mode2_Off_Txt);
-                Stone_Motor_Mode3_btn.setText(Stone_Motor_Mode3_Off_Txt);
-                Stone_Motor_Mode4_btn.setText(Stone_Motor_Mode4_Off_Txt);
-                Stone_Motor_Off_btn.setText(Stone_Motor_Off_Txt);
+                Stone_Motor_Status = (Stone_Motor_Status == true) ? false : true;
+
+                /* Change the Motor status fisrt */
+                dataTrans[0] = (Stone_Motor_Status == true ) ? 1 : 0;
+                //dataTrans[0] = 1;
+                dataTrans[1] = 0;
+                dataTrans[2] = time_value;
+                dataTrans[3] = pwm_value;
+
+                if(Stone_Motor_Status == true)
+                {
+                    Stone_Motor_Off_btn.setText(Stone_Motor_On_Txt);
+                    Stone_Motor_Mode1_btn.setVisibility(View.VISIBLE);
+                    Stone_Motor_Mode1_btn.setEnabled(true);
+                } else {
+                    Stone_Motor_Off_btn.setText(Stone_Motor_Off_Txt);
+                    Stone_Motor_Mode1_btn.setEnabled(false);
+                    Stone_Motor_Mode1_btn.setVisibility(View.INVISIBLE);
+                    Stone_Motor_Mode1_btn.setText(Stone_Motor_Mode1_Off_Txt);
+                }
+
 
                 WriteChar(dataTrans);
+
+            }
+        });
+
+        time_value = 3;
+        pwm_value = 55;
+
+        time_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                time_value = position + 3;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        pwm_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                pwm_value = position * 2 + 50;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });

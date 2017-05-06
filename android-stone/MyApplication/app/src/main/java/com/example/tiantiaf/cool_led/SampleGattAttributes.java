@@ -11,6 +11,8 @@ public class SampleGattAttributes {
 
     /* Custom Characteristic */
     public static String CTR_Stone_Motor = "0000CBB1-0000-1000-8000-00805F9B34FB";
+    //public static String CTR_Stone_Motor = "0000CBB1-0100-0800-0008-05F9B34FB000";
+
     public static String CTR_LED = "0000cbb2-0000-1000-8000-00805F9B34FB";
 
     public static String Notification = "00002902-0000-1000-8000-00805f9b34fb";
